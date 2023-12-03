@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<body>
+<div style="text-align: center;">
+    <form method="POST" action="/create/" id="create_url_form">
+        <input type="text" name="redirect_url" placeholder="Where to redirect" required>
+        <button type="submit" id="submit_button">Create</button>
+    </form>
+</div>
+
+</body>
+<script>
+    let form = document.getElementById('create_url_form');
+    form.addEventListener("submit", (event) =>  {
+        event.preventDefault();
+        let input = document.querySelector('input[name="redirect_url"]').value;
+        // check if input is valid url
+        if (!input.match(/^(http|https):\/\/[^ "]+$/)) {
+            alert('Please enter a valid url');
+            return false;
+        }
+        // validate url check if the url exists
+        fetch(input)
+            .then(response => {
+                if (!response.ok) {
+                    alert('The url may not exist or is not reachable');
+                    return false;
+                }
+            });
+        form.submit();
+    });
+
+</script>
+
+</html>
